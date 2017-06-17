@@ -1,30 +1,38 @@
-var animatePoints = function() {
+var pointsArray = document.getElementsByClassName('point');
 
-    var points = document.getElementsByClassName('point');
+var animatePoints = function(points) {
 
-    var revealFirstPoint = function() {
-        points[0].style.opacity = 1;
-        points[0].style.transform = "scaleX(1) translateY(0)";
-        points[0].style.msTransfrom = "scaleX(1) translateY(0)";
-        points[0].style.WebkitTransform = "scaleX(1) translateY(0)";
+// var animatePoints = function() {
+    // var points = document.getElementsByClassName('point');
+    function revealPoint() {
+        for (var i = 0; i < 3; i++) {
+            points[i].style.opacity = 1;
+            points[i].style.transform = "scaleX(1) translateY(0)";
+            points[i].style.msTransfrom = "scaleX(1) translateY(0)";
+            points[i].style.WebkitTransform = "scaleX(1) translateY(0)";
+        }
     };
 
-    var revealSecondPoint = function() {
-        points[1].style.opacity = 1;
-        points[1].style.transform = "scaleX(1) translateY(0)";
-        points[1].style.msTransfrom = "scaleX(1) translateY(0)";
-        points[1].style.WebkitTransform = "scaleX(1) translateY(0)";
-    };
-
-    var revealThirdPoint = function() {
-        points[2].style.opacity = 1;
-        points[2].style.transform = "scaleX(1) translateY(0)";
-        points[2].style.msTransfrom = "scaleX(1) translateY(0)";
-        points[2].style.WebkitTransform = "scaleX(1) translateY(0)";
-    };
-
-    revealFirstPoint();
-    revealSecondPoint();
-    revealThirdPoint();
+    revealPoint();
 
 };
+
+window.onload = function() {
+    // alert("The window has loaded!");
+    if (window.innerHeight > 950) {
+         animatePoints(pointsArray);
+    }
+
+    var sellingPoints = document.getElementsByClassName('selling-points')[0];
+    var scrollDistance = sellingPoints.getBoundingClientRect().top - window.innerHeight + 200;
+
+    window.addEventListener('scroll', function(event) {
+        // console.log(event);
+        // console.log("Current offset from the top is " + sellingPoints.getBoundingClientRect().top + " pixels");
+        if (document.documentElement.scrollTop || document.body.scrollTop >= scrollDistance) {
+             animatePoints(pointsArray);
+        }
+    });
+}
+
+animatePoints();
