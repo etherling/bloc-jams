@@ -32,6 +32,27 @@ var albumMarconi = {
 
 
 
+// Third Example Album
+var albumMJ = {
+    title: 'Thriller',
+    artist: 'Michael Jackson',
+    label: 'Epic - CBS',
+    year: '1982',
+    albumArtUrl: 'https://upload.wikimedia.org/wikipedia/en/thumb/5/55/Michael_Jackson_-_Thriller.png/220px-Michael_Jackson_-_Thriller.png',
+    songs: [
+        { title: "Wanna Be Startin' Somethin'", duration: '6:04' },
+        { title: 'Baby Be Mine', duration: '4:21' },
+        { title: 'The Girl Is Mine', duration: '3:43'},
+        { title: 'Thriller', duration: '5:58' },
+        { title: 'Beat It', duration: '4:18'},
+        { title: 'Billie Jean', duration: '4:54' },
+        { title: 'Human Nature', duration: '4:07' },
+        { title: 'P.Y.T. (Pretty Young Thing)', duration: '3:58' },
+        { title: 'The Lady in My Life', duration: '4:59' }
+    ]
+};
+
+
 
 var createSongRow = function(songNumber, songName, songLength) {
     var template =
@@ -47,15 +68,16 @@ var createSongRow = function(songNumber, songName, songLength) {
 
 
 
+// #1
+var albumTitle = document.getElementsByClassName('album-view-title')[0];
+var albumArtist = document.getElementsByClassName('album-view-artist')[0];
+var albumReleaseInfo = document.getElementsByClassName('album-view-release-info')[0];
+var albumImage = document.getElementsByClassName('album-cover-art')[0];
+var albumSongList = document.getElementsByClassName('album-view-song-list')[0];
+
+
 
 var setCurrentAlbum = function(album) {
-    // #1
-    var albumTitle = document.getElementsByClassName('album-view-title')[0];
-    var albumArtist = document.getElementsByClassName('album-view-artist')[0];
-    var albumReleaseInfo = document.getElementsByClassName('album-view-release-info')[0];
-    var albumImage = document.getElementsByClassName('album-cover-art')[0];
-    var albumSongList = document.getElementsByClassName('album-view-song-list')[0];
-
     // #2
     albumTitle.firstChild.nodeValue = album.title;
     albumArtist.firstChild.nodeValue = album.artist;
@@ -73,4 +95,14 @@ var setCurrentAlbum = function(album) {
 
 window.onload = function() {
     setCurrentAlbum(albumPicasso);
+
+    var albums = [albumPicasso, albumMarconi, albumMJ];
+    var index = 1;
+    albumImage.addEventListener("click", function(event) {
+        setCurrentAlbum(album[index]);
+        index++;
+        if (index == albums.length) {
+            index = 0;
+        }
+    });
 };
