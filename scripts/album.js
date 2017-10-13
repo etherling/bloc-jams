@@ -116,11 +116,51 @@ var updatePlayerBarSong = function() {
     $('.main-controls .play-pause').html(playerBarPauseButton);
 };
 
+var togglePlayPauseFromPlayerBar = function(event) {
+    var songNumberCell = $(this).find('.song-item-number');
+    var currentSongIndex = trackIndex(currentAlbum, currentSongFromAlbum);
+
+    // Initial load, no song is playing, then play the first song.
+    if (currentSoundFile == null) {
+        // Play the FIRST song
+        setSong(1);
+        currentSoundFile.play();
+        // change songNumberCell from the PLAY button to PAUSE button
+        var currentlyPlayingCell = getSongNumberCell(currentlyPlayingSongNumber);
+        currentlyPlayingCell.html(pauseButtonTemplate);
+        // change playerBar from playerBarPlayButton to playerBarPauseButton
+        $('.main-controls .play-pause').html(playerBarPauseButton);
+    }
+    else {
+        // Click the playerBar's PLAY button to:
+        if (currentSoundFile.isPaused()) {
+            // ...PLAY the song,...
+            currentSoundFile.play();
+            // ...change songNumberCell from the PLAY button to PAUSE button, and...
+            var currentlyPlayingCell = getSongNumberCell(currentlyPlayingSongNumber);
+            currentlyPlayingCell.html(pauseButtonTemplate);
+            // ...change playerBar from playerBarPlayButton to playerBarPauseButton.
+            $('.main-controls .play-pause').html(playerBarPauseButton);
+        }
+        // Click the playerBar's PAUSE button to:
+        else {
+            // ...PAUSE the song,...
+            currentSoundFile.pause();
+            // ...change songNumberCell from the PAUSE button to PLAY button, and...
+            var currentlyPlayingCell = getSongNumberCell(currentlyPlayingSongNumber);
+            currentlyPlayingCell.html(playButtonTemplate);
+            // ...change playerBar from playerBarPauseButton to playerBarPlayButton.
+            $('.main-controls .play-pause').html(playerBarPlayButton);
+        }
+    }
+
+};
+
 var nextSong = function() {
     var currentSongIndex = trackIndex(currentAlbum, currentSongFromAlbum);
     // Note that we're _incrementing_ the song here
     currentSongIndex++;
-
+    // Once it reaches the end, start from the beginning.
     if (currentSongIndex >= currentAlbum.songs.length) {
         currentSongIndex = 0;
     }
@@ -188,4 +228,7 @@ $(document).ready(function() {
     setCurrentAlbum(albumPicasso);
     $previousButton.click(previousSong);
     $nextButton.click(nextSong);
+
+    var $playPauseButton = $('.main-controls .play-pause');
+    $playPauseButton.click(togglePlayPauseFromPlayerBar);
 });
